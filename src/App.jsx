@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import styled from '@emotion/styled'
 import ImagenCripto from './img/imagen-criptos.png'
-
+import Formulario from '../components/Formulario'
 
 function App() {
+
   //Defino  el styled component para un h1. Siempre con StringTemplate y defino el disenio
-  // npm i @emotions/react @emotion/styled Para instalar
-  
+  //npm i @emotions/react @emotion/styled Para instalar
   const Contenedor = styled.div`
   max-width: 900px;
   margin: 0 auto;
@@ -49,10 +48,12 @@ function App() {
       src={ImagenCripto}
       alt='imagenes criptomonedas'
       />
-        <Heading>Cotiza Criptomonedas al instante</Heading>
-    </Contenedor>
-    
-     
+      <div>
+        <Heading>Cotiza Criptomonedas al instante</Heading>    
+        <Formulario></Formulario>
+      </div>
+         
+    </Contenedor>  
     </>
   )
 }
