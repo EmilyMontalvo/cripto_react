@@ -2,10 +2,12 @@ import {useEffect, useState} from 'react'
 import styled from '@emotion/styled'
 import useSelectMonedas from '../src/hooks/useSelectMonedas'
 import { monedas } from '../src/data/monedas'
+import Error from './Error'
 
-const Formulario = () => {
+const Formulario = (setMonedas) => {
 
     const [criptos, setCriptos] = useState([])
+    const [error, setError] = useState(false)
     //Importo hoook personalizado y le mando un valor inicial junto con la data
     const [monedaSeleccionada, SelectMonedas] = useSelectMonedas('Eligen tu moneda', monedas) 
     const [criptomonedaSeleccionada, SelectCriptomonedas] = useSelectMonedas('Elige tu Criptomoneda', criptos) //Reutilizo la funcion para criptomonedas
@@ -45,13 +47,32 @@ const Formulario = () => {
     }
     `
 
+    const handleSubmit = e => {
+        e.preventDefault() //evitar que la página se recargue cuando se envía un formulario
+        if([monedaSeleccionada, criptomonedaSeleccionada].includes('')){ //Hago un arreglo de moneda y criptonomeda seleciconada 
+                                                            // busco si alguna tine un string vacio
+            setError(true)
+            return
+        }
+        setError(false)
+        setMonedas({monedaSeleccionada, criptomonedaSeleccionada})
+    }
+
   return (
-    <form>
+    <>
+    
+    <form
+    onSubmit={handleSubmit}
+    >
         <SelectMonedas/>
         <SelectCriptomonedas/> 
+        {/* Utilizo un componente con children para imprimir el Error */}
+        {error && <Error>Todos los campos son obligatorios</Error> }
         <InputSubmit type="submit" value="Cotizar" />
     </form>
+    </>
   )
+  
 }
 
 export default Formulario

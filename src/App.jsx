@@ -1,8 +1,19 @@
 import styled from '@emotion/styled'
 import ImagenCripto from './img/imagen-criptos.png'
 import Formulario from '../components/Formulario'
+import { useEffect, useState } from 'react'
+import { monedas } from './data/monedas'
 
 function App() {
+
+  const [moneda, setMonedas] = useState({}) //Necesito las monedasSeleccionadas, entonces mando el set monedas a Formulario y moneda ya tiene un valor 
+
+  useEffect (()=>{
+    if(Object.keys(monedas).length>0){ //Verificamos que hay algo en el objeto
+
+    }
+
+  },[monedas]) //Cada vez que se cambie el valor de las monedas seleccionadas
 
   //Defino  el styled component para un h1. Siempre con StringTemplate y defino el disenio
   //npm i @emotions/react @emotion/styled Para instalar
@@ -50,7 +61,9 @@ function App() {
       />
       <div>
         <Heading>Cotiza Criptomonedas al instante</Heading>    
-        <Formulario></Formulario>
+        <Formulario
+        setMonedas = {setMonedas}
+        />
       </div>
          
     </Contenedor>  
