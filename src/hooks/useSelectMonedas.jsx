@@ -2,11 +2,7 @@ import {useState} from 'react'
 import styled from '@emotion/styled'
 
 
-const useSelectMonedas = (label, opciones) => { //recibo el valor incial
-    
-    const [state, setState] = useState('')
-
-    const Label = styled.label`
+const Label = styled.label`
     color: #fff;
     display: block;
     font-family: 'Lato', sans-serif;
@@ -21,6 +17,10 @@ const useSelectMonedas = (label, opciones) => { //recibo el valor incial
      border-radius: 10px;
      `
 
+const useSelectMonedas = (label, opciones) => { //recibo el valor incial
+    
+    const [state, setState] = useState('')
+    
   const SelectMonedas = () => (
         <>
         <Label>{label}</Label> {/*Imprimo el valor inicial label  */}

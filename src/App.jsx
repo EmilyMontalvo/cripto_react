@@ -2,20 +2,9 @@ import styled from '@emotion/styled'
 import ImagenCripto from './img/imagen-criptos.png'
 import Formulario from '../components/Formulario'
 import { useEffect, useState } from 'react'
-import { monedas } from './data/monedas'
+import Resultado from '../components/Resultado'
 
-function App() {
-
-  const [moneda, setMonedas] = useState({}) //Necesito las monedasSeleccionadas, entonces mando el set monedas a Formulario y moneda ya tiene un valor 
-
-  useEffect (()=>{
-    if(Object.keys(monedas).length>0){ //Verificamos que hay algo en el objeto
-
-    }
-
-  },[monedas]) //Cada vez que se cambie el valor de las monedas seleccionadas
-
-  //Defino  el styled component para un h1. Siempre con StringTemplate y defino el disenio
+//Defino  el styled component para un h1. Siempre con StringTemplate y defino el disenio
   //npm i @emotions/react @emotion/styled Para instalar
   const Contenedor = styled.div`
   max-width: 900px;
@@ -51,6 +40,35 @@ function App() {
   display: block;
   `
 
+function App() {
+
+  const [monedas, setMonedas] = useState({}) //Necesito las monedasSeleccionadas, entonces mando el set monedas a Formulario y moneda ya tiene un valor 
+  
+  const [resultado, setResultado] = useState({})
+
+  useEffect (()=>{
+    
+    if(Object.keys(monedas).length>0){ //Verificamos que hay algo en el objeto
+      
+      const cotizarCripto = async () =>{
+        console.log(monedas)
+        const {monedaSeleccionada, criptomonedaSeleccionada} = monedas //Objet Destructuring, se pone el mismo nombre.
+        console.log(monedaSeleccionada)
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${criptomonedaSeleccionada}&tsyms=${monedaSeleccionada}` //CON TEMPLATE STRING
+        const response = await fetch(url)
+        const resultado = await response.json()
+
+        setResultado(resultado.DISPLAY[criptomonedaSeleccionada][monedaSeleccionada]) //Pongo los corchetes para que la busqueda en el JSON sea dinamica. 
+      }
+
+      cotizarCripto()  
+    }
+    
+
+  },[monedas]) //Cada vez que se cambie el valor de las monedas seleccionadas
+
+  
+
   return (
     <>
     {/* Utilizo el Style Component creado */}
@@ -62,8 +80,11 @@ function App() {
       <div>
         <Heading>Cotiza Criptomonedas al instante</Heading>    
         <Formulario
-        setMonedas = {setMonedas}
+          setMonedas = {setMonedas}
         />
+        {/* Verificamos si hay un resultado especifico, y si lo hay mandamos por props a Resultado */}
+        {Object.keys(resultado).length !== 0 && <Resultado resultado = {resultado} />} 
+        
       </div>
          
     </Contenedor>  

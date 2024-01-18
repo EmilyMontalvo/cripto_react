@@ -4,7 +4,25 @@ import useSelectMonedas from '../src/hooks/useSelectMonedas'
 import { monedas } from '../src/data/monedas'
 import Error from './Error'
 
-const Formulario = (setMonedas) => {
+const InputSubmit = styled.input`
+background-color: #9497ff;
+border: none;
+width: 100%;
+padding: 10px;
+color: #fff;
+font-weight: 700;
+text-transform: uppercase;
+font-size: 20px;
+border-radius: 5px;
+transition: background-color .3s ease;
+margin-top: 30px;
+&:hover{
+    background-color: #7a7dfe;
+    cursor: pointer;
+}
+`
+
+const Formulario = ({setMonedas}) => {
 
     const [criptos, setCriptos] = useState([])
     const [error, setError] = useState(false)
@@ -29,23 +47,7 @@ const Formulario = (setMonedas) => {
     }, [])
 
 
-    const InputSubmit = styled.input`
-    background-color: #9497ff;
-    border: none;
-    width: 100%;
-    padding: 10px;
-    color: #fff;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 20px;
-    border-radius: 5px;
-    transition: background-color .3s ease;
-    margin-top: 30px;
-    &:hover{
-        background-color: #7a7dfe;
-        cursor: pointer;
-    }
-    `
+    
 
     const handleSubmit = e => {
         e.preventDefault() //evitar que la página se recargue cuando se envía un formulario
@@ -56,6 +58,7 @@ const Formulario = (setMonedas) => {
         }
         setError(false)
         setMonedas({monedaSeleccionada, criptomonedaSeleccionada})
+        
     }
 
   return (
