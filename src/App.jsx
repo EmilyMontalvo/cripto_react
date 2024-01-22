@@ -3,6 +3,7 @@ import ImagenCripto from './img/imagen-criptos.png'
 import Formulario from '../components/Formulario'
 import { useEffect, useState } from 'react'
 import Resultado from '../components/Resultado'
+import Spinner from '../components/Spinner'
 
 //Defino  el styled component para un h1. Siempre con StringTemplate y defino el disenio
   //npm i @emotions/react @emotion/styled Para instalar
@@ -46,11 +47,15 @@ function App() {
   
   const [resultado, setResultado] = useState({})
 
+  const [laoding, setLoading] = useState(false) //State para mostrar carga
+
   useEffect (()=>{
     
     if(Object.keys(monedas).length>0){ //Verificamos que hay algo en el objeto
       
       const cotizarCripto = async () =>{
+        setLoading(true)
+        setResultado({}) //Reseteo la info para que desaparezca mientras esta el Spinner
         console.log(monedas)
         const {monedaSeleccionada, criptomonedaSeleccionada} = monedas //Objet Destructuring, se pone el mismo nombre.
         console.log(monedaSeleccionada)
@@ -59,6 +64,7 @@ function App() {
         const resultado = await response.json()
 
         setResultado(resultado.DISPLAY[criptomonedaSeleccionada][monedaSeleccionada]) //Pongo los corchetes para que la busqueda en el JSON sea dinamica. 
+        setLoading(false)
       }
 
       cotizarCripto()  
@@ -82,6 +88,7 @@ function App() {
         <Formulario
           setMonedas = {setMonedas}
         />
+        {laoding && <Spinner/> }
         {/* Verificamos si hay un resultado especifico, y si lo hay mandamos por props a Resultado */}
         {Object.keys(resultado).length !== 0 && <Resultado resultado = {resultado} />} 
         
